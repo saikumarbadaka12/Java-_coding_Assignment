@@ -1,0 +1,85 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. Shuffle an Array
+        Integer[] myArray = {1, 2, 3, 4, 5, 6, 7};
+        shuffleArray(myArray);
+        System.out.println("Shuffled Array: " + Arrays.toString(myArray));
+
+        // 2. Roman to Integer Conversion
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a Roman Number: ");
+        String romanInput = scanner.nextLine().toUpperCase();
+        int integerResult = romanToInteger(romanInput);
+        System.out.println("The integer value of " + romanInput + " is: " + integerResult);
+
+        // 3. Pangram Check
+        System.out.print("Enter a sentence: ");
+        String sentenceInput = scanner.nextLine();
+        boolean isPangram = isPangram(sentenceInput.toLowerCase());
+        if (isPangram) {
+            System.out.println("The input is a pangram.");
+        } else {
+            System.out.println("The input is not a pangram.");
+        }
+    }
+
+    // Shuffle an array using Collections.shuffle
+    private static void shuffleArray(Integer[] array) {
+        List<Integer> list = Arrays.asList(array);
+        Collections.shuffle(list);
+        list.toArray(array);
+    }
+
+    // Convert Roman to Integer
+    private static int romanToInteger(String s) {
+        int result = 0;
+        int prevValue = 0;
+
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int value = getRomanValue(s.charAt(i));
+            result += (value < prevValue) ? -value : value;
+            prevValue = value;
+        }
+
+        return result;
+    }
+
+    // Helper method to get the integer value of a Roman numeral
+    private static int getRomanValue(char romanChar) {
+        switch (romanChar) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                throw new IllegalArgumentException("Invalid Roman numeral: " + romanChar);
+        }
+    }
+
+    // Check if a sentence is a pangram
+    private static boolean isPangram(String sentence) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (sentence.indexOf(c) == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
